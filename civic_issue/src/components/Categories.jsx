@@ -35,7 +35,7 @@ const Categories = () => {
   return (
     <section style={{background:'#18122B', color:'#fff', padding:'3rem 0 2rem 0'}}>
       <h2 className="text-center fw-bold mb-2" style={{fontSize:'2rem', color:'#fff'}}>Popular Categories</h2>
-      <p className="text-center mb-4" style={{color:'#c7c7d9'}}>Choose a category to get started</p>
+      <p className="text-center mb-4" style={{color:'#c7c7d9'}}>Categories you can report</p>
       <div className="container">
         <div className="row g-4 justify-content-center">
           {categories.map((cat) => (

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-  <nav className="navbar navbar-expand-lg" style={{background:'#18122B', border:'none', boxShadow:'none', marginBottom:'2.5rem'}}>
+  <nav className="navbar navbar-expand-lg" style={{background:'#18122B', border:'none', boxShadow:'none'}}>
       <div className="container-fluid">
         <Link className="navbar-brand fw-bold" style={{color:'#a78bfa', fontWeight:700, fontSize:'1.5rem', letterSpacing:'-1px'}} to="/">● CivicReport</Link>
         <div className="collapse navbar-collapse justify-content-end">

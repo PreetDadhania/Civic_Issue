@@ -3,17 +3,18 @@ import { useNavigate } from "react-router-dom";
 import API from "../api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaTachometerAlt, FaTasks, FaUserCog } from "react-icons/fa";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
 const sidebarLinks = [
-  { name: "Dashboard", key: "dashboard" },
-  { name: "Manage Issues", key: "manage" },
+  {
+    name: "Dashboard",
+    key: "dashboard",
+    icon: <FaTachometerAlt className="me-2" />,
+  },
+  { name: "Manage Issues", key: "manage", icon: <FaTasks className="me-2" /> },
 ];
-
-const statusColors = {
-  Pending: "bg-yellow-100 text-yellow-700",
-  "In Progress": "bg-blue-100 text-blue-700",
-  Resolved: "bg-green-100 text-green-700",
-};
 
 const statusOptions = ["Pending", "In Progress", "Resolved"];
 
@@ -27,22 +28,35 @@ function AdminDashboard() {
   useEffect(() => {
     setLoading(true);
     API.get("admin/issues/")
-      .then((res) => setIssues(res.data))
+      .then((res) => {
+        // Format the data to ensure all required fields are present
+        const formattedIssues = res.data.map((issue) => ({
+          ...issue,
+          reporter: issue.created_by || "Unknown",
+          date: new Date(issue.created_at).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }),
+        }));
+        setIssues(formattedIssues);
+      })
       .catch(() => toast.error("Failed to load admin issues"))
       .finally(() => setLoading(false));
   }, []);
 
   // Card counts
   const total = issues.length;
-  const pending = issues.filter(i => i.status === "Pending").length;
-  const inProgress = issues.filter(i => i.status === "In Progress").length;
-  const resolved = issues.filter(i => i.status === "Resolved").length;
+  const pending = issues.filter((i) => i.status === "Pending").length;
+  const inProgress = issues.filter((i) => i.status === "In Progress").length;
+  const resolved = issues.filter((i) => i.status === "Resolved").length;
 
   const updateStatus = async (idx, newStatus) => {
     const issue = issues[idx];
     try {
-      await API.patch(`admin/issues/${issue.id}/status/`, { status: newStatus });
-      // Refresh issues after update
+      await API.patch(`admin/issues/${issue.id}/status/`, {
+        status: newStatus,
+      });
       setLoading(true);
       const res = await API.get("admin/issues/");
       setIssues(res.data);
@@ -54,30 +68,52 @@ function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
+    <div className="d-flex min-vh-100" style={{ background: "#1a1f2c" }}>
       <ToastContainer />
       {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md flex flex-col">
-        <div className="h-16 flex items-center justify-center font-bold text-xl text-blue-600 border-b">Admin Panel</div>
-        <nav className="flex-1 py-6 px-4 space-y-2">
-          {sidebarLinks.map(link => (
+      <aside
+        className="d-flex flex-column p-3"
+        style={{ width: "250px", background: "#232b3c" }}
+      >
+        <div className="h4 text-white text-center border-bottom pb-3 mb-3 d-flex align-items-center justify-content-center">
+          <FaUserCog className="me-2" />
+          <span>Admin</span>
+        </div>
+        <nav className="nav flex-column mb-auto">
+          {sidebarLinks.map((link) => (
             <button
               key={link.key}
-              className={`w-full text-left px-4 py-2 rounded font-medium transition ${active === link.key ? "bg-blue-100 text-blue-700" : "text-gray-700 hover:bg-blue-50"}`}
+              className={`btn text-start mb-2 w-100 ${
+                active === link.key ? "text-white" : "text-light-emphasis"
+              }`}
+              style={{
+                background: active === link.key ? "#3a4357" : "transparent",
+                border: "none",
+                transition: "all 0.3s",
+              }}
               onClick={() => setActive(link.key)}
             >
-              {link.name}
+              {link.icon} {link.name}
             </button>
           ))}
         </nav>
       </aside>
+
       {/* Main content */}
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className="flex-grow-1 d-flex flex-column">
         {/* Top Navbar */}
-        <header className="h-16 bg-white shadow flex items-center justify-between px-8">
-          <span className="font-semibold text-lg text-gray-700">Welcome, {adminName}</span>
+        <header
+          className="d-flex justify-content-between align-items-center p-3 border-bottom"
+          style={{ background: "#232b3c" }}
+        >
+          <span className="fw-bold text-light">Welcome, {adminName}</span>
           <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold transition"
+            className="btn"
+            style={{
+              background: "#3a4357",
+              color: "white",
+              border: "none",
+            }}
             onClick={() => {
               localStorage.removeItem("jwt");
               localStorage.removeItem("user");
@@ -87,73 +123,159 @@ function AdminDashboard() {
             Logout
           </button>
         </header>
-        <main className="flex-1 p-8">
+
+        <main className="flex-grow-1 p-4">
           {active === "dashboard" && (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-              <div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
-                <span className="text-2xl font-bold text-blue-600">{total}</span>
-                <span className="mt-2 text-gray-600">Total Issues</span>
+            <div className="row g-4 mb-4">
+              <div className="col-md-3">
+                <div
+                  className="card bg-dark text-center border-0 shadow-sm"
+                  style={{
+                    background: "#232b3c",
+                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                    transition: "transform 0.2s",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "translateY(-5px)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = "translateY(0)")
+                  }
+                >
+                  <div className="card-body">
+                    <h2 className="text-warning">{total}</h2>
+                    <p className="mb-0 text-light-emphasis">Total Issues</p>
+                  </div>
+                </div>
               </div>
-              <div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
-                <span className="text-2xl font-bold text-yellow-600">{pending}</span>
-                <span className="mt-2 text-gray-600">Pending</span>
+              <div className="col-md-3">
+                <div className="card bg-dark text-center border-0 shadow-sm">
+                  <div className="card-body">
+                    <h2 className="text-danger">{pending}</h2>
+                    <p className="mb-0 text-light-emphasis">Pending</p>
+                  </div>
+                </div>
               </div>
-              <div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
-                <span className="text-2xl font-bold text-blue-600">{inProgress}</span>
-                <span className="mt-2 text-gray-600">In Progress</span>
+              <div className="col-md-3">
+                <div className="card bg-dark text-center border-0 shadow-sm">
+                  <div className="card-body">
+                    <h2 className="text-info">{inProgress}</h2>
+                    <p className="mb-0 text-light-emphasis">In Progress</p>
+                  </div>
+                </div>
               </div>
-              <div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
-                <span className="text-2xl font-bold text-green-600">{resolved}</span>
-                <span className="mt-2 text-gray-600">Resolved</span>
+              <div className="col-md-3">
+                <div className="card bg-dark text-center border-0 shadow-sm">
+                  <div className="card-body">
+                    <h2 className="text-success">{resolved}</h2>
+                    <p className="mb-0 text-light-emphasis">Resolved</p>
+                  </div>
+                </div>
               </div>
             </div>
           )}
+
           {active === "manage" && (
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-bold mb-4 text-blue-600">Manage Issues</h2>
+            <div
+              className="card border-0 p-3"
+              style={{ background: "#232b3c" }}
+            >
+              <h4 className="text-light mb-3">Manage Issues</h4>
               {loading ? (
-                <div className="text-center py-8">Loading...</div>
+                <div className="text-center py-4 text-light">Loading...</div>
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="min-w-full text-sm">
+                <div className="table-responsive">
+                  <table
+                    className="table table-hover align-middle"
+                    style={{ color: "#e2e8f0" }}
+                  >
                     <thead>
-                      <tr className="bg-blue-50">
-                        <th className="px-4 py-2 text-left font-semibold">Title</th>
-                        <th className="px-4 py-2 text-left font-semibold">Reporter</th>
-                        <th className="px-4 py-2 text-left font-semibold">Date</th>
-                        <th className="px-4 py-2 text-left font-semibold">Image</th>
-                        <th className="px-4 py-2 text-left font-semibold">Status</th>
-                        <th className="px-4 py-2 text-left font-semibold">Action</th>
+                      <tr style={{ borderBottom: "2px solid #3a4357" }}>
+                        <th className="py-3">Title</th>
+                        <th className="py-3">Reporter</th>
+                        <th className="py-3">Date</th>
+                        <th className="py-3">Image</th>
+                        <th className="py-3">Status</th>
+                        <th className="py-3">Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {issues.map((issue, idx) => (
-                        <tr key={idx} className="border-b hover:bg-blue-50 transition">
-                          <td className="px-4 py-2 font-medium">{issue.title}</td>
-                          <td className="px-4 py-2">{issue.reporter}</td>
-                          <td className="px-4 py-2 text-gray-500">{issue.date}</td>
-                          <td className="px-4 py-2">
+                        <tr
+                          key={idx}
+                          style={{ borderBottom: "1px solid #2d3748" }}
+                        >
+                          <td className="py-3 fw-semibold">{issue.title}</td>
+                          <td
+                            className="py-3"
+                            style={{ color: "black", fontWeight: "500" }}
+                          >
+                            {issue.created_by &&
+                            typeof issue.created_by === "string" &&
+                            issue.created_by.trim() !== ""
+                              ? issue.created_by.get_full_name()
+                              : "Unknown User"}
+                          </td>
+                          <td className="py-3" style={{ color: "black" }}>
+                            {issue.date ||
+                              new Date(issue.created_at).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                }
+                              )}
+                          </td>
+                          <td className="py-3">
                             {issue.image ? (
                               <img
-                                src={issue.image.startsWith('http') ? issue.image : `/backend/${issue.image}`}
+                                src={issue.image}
                                 alt="Issue"
-                                className="h-16 w-16 object-cover rounded"
+                                className="rounded"
+                                style={{
+                                  width: "60px",
+                                  height: "60px",
+                                  objectFit: "cover",
+                                  border: "2px solid #3a4357",
+                                }}
+                                onError={(e) => {
+                                  e.target.src = issue.image.startsWith("http")
+                                    ? `/backend/${issue.image}`
+                                    : issue.image;
+                                }}
                               />
                             ) : (
-                              <span className="text-gray-400 italic">No image</span>
+                              <span className="text-muted fst-italic">
+                                No image
+                              </span>
                             )}
                           </td>
-                          <td className="px-4 py-2">
-                            <span className={`px-2 py-1 rounded text-xs font-semibold ${statusColors[issue.status]}`}>{issue.status}</span>
+                          <td>
+                            <span
+                              className={`badge ${
+                                issue.status === "Pending"
+                                  ? "bg-warning text-dark"
+                                  : issue.status === "In Progress"
+                                  ? "bg-info text-dark"
+                                  : "bg-success"
+                              }`}
+                            >
+                              {issue.status}
+                            </span>
                           </td>
-                          <td className="px-4 py-2">
+                          <td>
                             <select
                               value={issue.status}
-                              onChange={e => updateStatus(idx, e.target.value)}
-                              className="border rounded px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400"
+                              onChange={(e) =>
+                                updateStatus(idx, e.target.value)
+                              }
+                              className="form-select form-select-sm bg-dark text-light border-secondary"
                             >
-                              {statusOptions.map(opt => (
-                                <option key={opt} value={opt}>{opt}</option>
+                              {statusOptions.map((opt) => (
+                                <option key={opt} value={opt}>
+                                  {opt}
+                                </option>
                               ))}
                             </select>
                           </td>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -11,8 +12,8 @@ const Hero = () => {
           Spot a pothole, broken streetlight, or garbage overflow? Submit in seconds and rally your community to get it fixed.
         </p>
         <div style={{display:'flex', gap:'1rem', justifyContent:'center'}}>
-          <a href="#" className="btn btn-lg" style={{background:'#a78bfa', color:'#fff', fontWeight:600, borderRadius:8, boxShadow:'0 2px 8px #0001'}}>Report Now</a>
-          <a href="#" className="btn btn-lg" style={{background:'#232136', color:'#fff', fontWeight:600, borderRadius:8, border:'1px solid #444'}}>Get Started</a>
+          <Link className="btn btn-lg" style={{background:'#a78bfa', color:'#fff', fontWeight:600, borderRadius:8, boxShadow:'0 2px 8px #0001'}} to="/signup">Report Now</Link>
+          <Link className="btn btn-lg" style={{background:'#232136', color:'#fff', fontWeight:600, borderRadius:8, border:'1px solid #444'}} to="/signup">Get Started</Link>
         </div>
       </div>
     </section>
