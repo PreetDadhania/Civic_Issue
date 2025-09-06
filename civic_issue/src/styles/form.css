@@ -1,0 +1,68 @@
+/* Form and button styles */
+.form-card {
+  background: #231942;
+  border-radius: 16px;
+  box-shadow: 0 2px 24px 0 #00000033;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  max-width: 420px;
+  margin: 2rem auto;
+  border: none;
+}
+.form-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.25rem;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+.input-group {
+  margin-bottom: 1.2rem;
+}
+.input-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #b8b8d1;
+}
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #3a3456;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #18122b;
+  color: #fff;
+  outline: none;
+}
+.input-error {
+  color: #e11d48;
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+.btn-primary {
+  width: 100%;
+  background: #a084ee;
+  color: #fff;
+  font-weight: 700;
+  padding: 0.75rem 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px 0 #00000022;
+  letter-spacing: 0.5px;
+  outline: none;
+  opacity: 1;
+  border-bottom: 2px solid #a084ee;
+}
+.btn-primary:hover {
+  background: #6c4ab6;
+}
+
+/* Login page background for dark/classy look */
+.login-bg {
+  background: #18122b !important;
+  min-height: 100vh;
+}

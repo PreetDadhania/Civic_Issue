@@ -1,0 +1,92 @@
+/* MyIssues specific styles */
+.my-issues-container {
+  width: 100%;
+  min-height: 100%;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 2rem 2rem 2rem calc(240px + 2rem); /* Account for sidebar width + padding */
+}
+
+.my-issues-content {
+  width: 100%;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.my-issues-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 1.8rem 0;
+  text-align: left;
+  letter-spacing: 0.02em;
+}
+
+.my-issues-table-container {
+  width: 100%;
+  background: none;
+  border-radius: 12px;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.my-issues-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #211c2a;
+  border-radius: 12px;
+  color: #e0e0f0;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.my-issues-table th {
+  padding: 0.9rem 1.2rem;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: left;
+  background: #232136;
+}
+
+.my-issues-table th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.my-issues-table th:last-child {
+  border-top-right-radius: 12px;
+}
+
+.my-issues-table tr {
+  background: #232136;
+}
+
+.my-issues-table tr:not(:last-child) {
+  border-bottom: 1px solid #31265c;
+}
+
+.my-issues-table td {
+  padding: 0.9rem 1.2rem;
+  color: #b8b8d1;
+}
+
+.my-issues-table td:first-child {
+  font-weight: 500;
+  color: #fff;
+}
+
+.status-badge {
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+  border-radius: 7px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.25rem 0.9rem;
+}
