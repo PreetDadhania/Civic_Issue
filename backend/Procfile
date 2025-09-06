@@ -1,1 +1,1 @@
-web: gunicorn Civic_Issue.wsgi --log-file -
+web: gunicorn civic_portal.wsgi --log-file -
