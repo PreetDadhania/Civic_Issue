@@ -28,7 +28,7 @@ SECRET_KEY = '5b565b995f3f68b8de6049936d9ebaa4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["Civic-Issue.onrender.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["Civic-Issue.onrender.com", "civic-issue-fix.onrender.com"]
 
 
 # Application definition
@@ -64,7 +64,9 @@ REST_FRAMEWORK = {
 }
 
 # Allow all origins for development (adjust for production)
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://civic-issue-fix.onrender.com",  # replace with your actual frontend Render link
+]
 # Optionally, restrict to your React app's URL:
 # CORS_ALLOWED_ORIGINS = [
 #     'http://localhost:3000',
