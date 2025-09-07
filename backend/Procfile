@@ -1,1 +1,0 @@
-web: gunicorn civic_portal.wsgi --log-file -

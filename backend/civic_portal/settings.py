@@ -23,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5b565b995f3f68b8de6049936d9ebaa4'
+SECRET_KEY = 'django-insecure-pqt=()gbiu3#6samyyta75h!0yk%5v-xigcn^y(u)(6f0*y3g_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["Civic-Issue.onrender.com", "civic-issue-fix.onrender.com"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -64,9 +64,7 @@ REST_FRAMEWORK = {
 }
 
 # Allow all origins for development (adjust for production)
-CORS_ALLOWED_ORIGINS = [
-    "https://civic-issue-fix.onrender.com",  # replace with your actual frontend Render link
-]
+CORS_ALLOW_ALL_ORIGINS = True
 # Optionally, restrict to your React app's URL:
 # CORS_ALLOWED_ORIGINS = [
 #     'http://localhost:3000',

@@ -1,8 +1,5 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-
-// Copilot, please analyze the CSS import below.
-// Is this the correct syntax for a Vite + React project? If not, provide the fix.
 import './index.css';
 import App from './App.jsx';
 

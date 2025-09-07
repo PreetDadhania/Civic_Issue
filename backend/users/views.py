@@ -54,16 +54,11 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 		if user is None or str(user.role) != str(role):
 			raise serializers.ValidationError('Invalid credentials or role.')
 		data = super().validate(attrs)
-		# Ensure access and refresh tokens are always present
-		data = {
-			'refresh': str(self.validated_data.get('refresh', '')),
-			'access': str(self.validated_data.get('access', '')),
-			'user': {
-				'id': self.user.id,
-				'username': self.user.username,
-				'email': self.user.email,
-				'role': self.user.role,
-			}
+		data['user'] = {
+			'id': self.user.id,
+			'username': self.user.username,
+			'email': self.user.email,
+			'role': self.user.role,
 		}
 		return data
 
